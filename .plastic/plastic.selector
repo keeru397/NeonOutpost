@@ -1,0 +1,4 @@
+repository "NeonOutpost 2026-10-22_23-34-23/NeonOutpost@2476042042334@cloud"
+  path "/"
+    br "/main"
+    co "/main"
