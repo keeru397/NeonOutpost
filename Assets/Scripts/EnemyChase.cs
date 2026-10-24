@@ -4,36 +4,18 @@ using UnityEngine;
 public class EnemyChase : MonoBehaviour
 {
     public Transform player;
-    public float detectionRange = 10f;
-    public float stopRange = 15f;
+    public float detectionRange = 5f;
+    public float stopRange = 10f;
     public float speed = 3f;
 
     private bool chasing = false;
-
-    void Start()
-    {
-        if (player == null)
-        {
-            GameObject playerObject =
-                GameObject.FindWithTag("Player");
-
-            if (playerObject != null)
-            {
-                player = playerObject.transform;
-            }
-        }
-    }
 
     void Update()
     {
         if (player == null) return;
 
-        Vector3 direction = player.position
-                            - transform.position;
-
-        direction.y = 0;
-
-        float distance = direction.magnitude;
+        float distance = Vector3.Distance(
+            transform.position, player.position);
 
         if (distance <= detectionRange)
             chasing = true;
@@ -43,9 +25,10 @@ public class EnemyChase : MonoBehaviour
 
         if (chasing)
         {
-            transform.position +=
-                direction.normalized * speed
-                * Time.deltaTime;
+            transform.position = Vector3.MoveTowards(
+                transform.position,
+                player.position,
+                speed * Time.deltaTime);
         }
     }
 }
