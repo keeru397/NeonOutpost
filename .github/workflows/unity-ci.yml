@@ -1,0 +1,26 @@
+
+name: Unity CI
+
+on:
+  push:
+    branches: [main, develop, "feature/**"]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { lfs: true }
+
+      - uses: actions/cache@v3
+        with:
+          path: Library
+          key: Library-${{ hashFiles('Assets/**', 'Packages/**') }}
+
+      - name: Build
+        uses: game-ci/unity-builder@v4
+        with:
+          unityVersion: auto
+          targetPlatform: StandaloneWindows64
